@@ -17,11 +17,12 @@ class _MainSplashScreenState extends State<MainSplashScreen> {
   bool _visible = true;
   Widget nextScreen;
 
-  int? duration;
+  int duration;
 
   @override
   void initState() {
     super.initState();
+    //FutureBuilder(builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {  },)
     Future.delayed(
       Duration(milliseconds: duration!),
       () {

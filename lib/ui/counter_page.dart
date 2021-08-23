@@ -8,6 +8,8 @@ import 'package:register_page/statistic_bloc/statistic_bloc.dart';
 import 'package:register_page/ui/statistic_page.dart';
 import 'package:register_page/ui/widgets/img_with_button.dart';
 
+import 'home_page.dart';
+
 class CounterPage extends StatefulWidget {
   CounterPage(this._uid);
   String _uid;
@@ -45,6 +47,13 @@ class _CounterPageState extends State<CounterPage> {
     );
   }
 
+  void exitButton(){
+    Navigator.popUntil(context, (context){ return true;});
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context)=>HomePage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<CounterBloc, CounterState>(
@@ -67,15 +76,23 @@ class _CounterPageState extends State<CounterPage> {
             builder: (context, state) {
               return Scaffold(
                 drawer: Drawer(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FlatButton(
+                              onPressed: counterPageButton,
+                              child: Text('Кнопочки')),
+                          FlatButton(
+                              onPressed: statisticPageButton,
+                              child: Text('Статистика')),
+                        ],
+                      ),
                       FlatButton(
-                          onPressed: counterPageButton,
-                          child: Text('Кнопочки')),
-                      FlatButton(
-                          onPressed: statisticPageButton,
-                          child: Text('Статистика')),
+                          onPressed: exitButton,
+                          child: Text('Выход из аккаунта')),
                     ],
                   ),
                 ),
