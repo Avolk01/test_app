@@ -12,6 +12,7 @@ import 'package:register_page/models/firebase_controller.dart';
 import 'package:register_page/ui/widgets/exception_bar.dart';
 import 'package:register_page/ui/widgets/loading_help_screen.dart';
 import 'package:register_page/ui/widgets/text_field_with_box.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'counter_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -33,7 +34,11 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordCheckController = TextEditingController();
 
-  void openPage(String feedback, bool isNewUser) {
+  void openPage(String feedback, bool isNewUser) async {
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    //String? savedDate = prefs.getString('date');
+    //String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
     Navigator.popUntil(context, (context){ return true;});
     Navigator.push(
         context,
@@ -45,7 +50,6 @@ class _RegisterPageState extends State<RegisterPage> {
               feedback,
               DateFormat('yyyy-MM-dd').format(DateTime.now()),
               isNewUser,
-              true,
             ),
             child: CounterPage(),
           ),
