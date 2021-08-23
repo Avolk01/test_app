@@ -21,7 +21,7 @@ class LoadingHelpScreen extends StatelessWidget {
             child: Center(
                 child: CircularProgressIndicator(
               color: Colors.white,
-            )),
+            ),),
           ),
         ),
       ),

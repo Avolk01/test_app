@@ -3,29 +3,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:register_page/counter_bloc/counter_bloc.dart';
+import 'package:register_page/models/firebase_controller.dart';
+import 'package:register_page/statistic_bloc/statistic_bloc.dart';
 import 'package:register_page/ui/statistic_page.dart';
 import 'package:register_page/ui/widgets/img_with_button.dart';
 
 class CounterPage extends StatefulWidget {
-  CounterPage({Key? key}) : super(key: key);
-
+  CounterPage(this._uid);
+  String _uid;
   @override
-  _CounterPageState createState() => _CounterPageState();
+  _CounterPageState createState() => _CounterPageState(_uid);
 }
 
 class _CounterPageState extends State<CounterPage> {
+  _CounterPageState(this._uid);
   int _blinCounter = 0;
   int _suicideCounter = 0;
   int _giveUpCounter = 0;
   int _chetkoCounter = 0;
+  String _uid;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   bool start = true;
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<CounterBloc>().add(Loading());
-  }
 
   void counterPageButton() {
     Navigator.pop(context);
@@ -37,7 +35,11 @@ class _CounterPageState extends State<CounterPage> {
       MaterialPageRoute(
         builder: (cntxt) => BlocProvider.value(
           value: BlocProvider.of<CounterBloc>(context),
-          child: StatisticPage(),
+          child: BlocProvider(
+            create: (context) => StatisticBloc(FirebaseController(
+                mainCollection: 'users', optionalCollection: 'dates'), _uid),
+            child: StatisticPage(),
+          ),
         ),
       ),
     );
@@ -51,6 +53,11 @@ class _CounterPageState extends State<CounterPage> {
         _suicideCounter = state.suicide;
         _giveUpCounter = state.giveUp;
         _chetkoCounter = state.chetko;
+        print(_blinCounter);
+        print(_suicideCounter);
+        print(_giveUpCounter);
+        print(_chetkoCounter);
+
       },
       child: StreamBuilder<QuerySnapshot>(
         stream: users.snapshots(),

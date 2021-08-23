@@ -16,6 +16,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     this._isNewUser,
   ) : super(CounterInitial()) {
     if (_isNewUser) _controller.createNewUser(_uid, _timeNow);
+    add(Loading());
   }
 
   FirebaseController _controller;
@@ -23,7 +24,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   String _timeNow;
   String _uid;
 
-  List<int> _databaseValues = [];
+  List<int> _databaseValues = [0, 0, 0, 0];
   List<int> _counterValues = [0, 0, 0, 0];
 
   void _incCounter(int index) {
@@ -74,17 +75,14 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
       _databaseValues[1] = (prefs.getInt('suicide')!);
       _databaseValues[2] = (prefs.getInt('giveUp')!);
       _databaseValues[3] = (prefs.getInt('chetko')!);
-    } else
+      print('LOAD FROM LOCAL DATABASE');
+      print(_databaseValues);
+    } else {
+      print('LOAD FROM FIREBASE');
       _databaseValues =
           await _controller.initFieldsFromDatabase(_uid, _timeNow);
-
-  }
-
-  void loadDataForExistUser() async {
-    _controller
-        .initFieldsFromDatabase(_uid, _timeNow)
-        .then((value) => saveData(value));
-    loadData();
+      print(_databaseValues);
+    }
   }
 
   @override
@@ -92,11 +90,15 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     CounterEvent event,
   ) async* {
     if (event.index == -1) {
-      _databaseValues = [0, 0, 0, 0];
       if (!_isNewUser) loadData();
-      bool flag = await isNewDate();
-      if (flag) _controller.addNewDate(_uid, _timeNow);
-
+      if (await isNewDate()) _controller.addNewDate(_uid, _timeNow);
+      print('mapEventToState');
+      yield IncCounter(
+        _databaseValues[0],
+        _databaseValues[1],
+        _databaseValues[2],
+        _databaseValues[3],
+      );
     } else {
       if (event.index < 5 && event.index > 0) _incCounter(event.index);
       List<int> counterList = _twoListSum(_databaseValues, _counterValues);

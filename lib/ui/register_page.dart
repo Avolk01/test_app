@@ -35,10 +35,6 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordCheckController = TextEditingController();
 
   void openPage(String feedback, bool isNewUser) async {
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    //String? savedDate = prefs.getString('date');
-    //String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
     Navigator.popUntil(context, (context){ return true;});
     Navigator.push(
         context,
@@ -51,7 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
               DateFormat('yyyy-MM-dd').format(DateTime.now()),
               isNewUser,
             ),
-            child: CounterPage(),
+            child: CounterPage(feedback),
           ),
         ));
   }

@@ -55,4 +55,16 @@ class FirebaseController {
         .doc(time)
         .set({'blin': 0, 'suicide': 0, 'giveUp': 0, 'chetko': 0});
   }
+
+  String dateToString(Map<String, dynamic> date){
+    String result = '';
+    date.forEach((key, value) {
+      result += value.toString()+' ';
+    });
+    return result;
+  }
+
+  List<String> getListOfDates(String uid){
+    return ['123','456','789'];
+  }
 }
