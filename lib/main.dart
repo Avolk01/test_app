@@ -50,8 +50,7 @@ class _RegisterAppState extends State<RegisterApp> {
                   FirebaseController(
                       mainCollection: 'users', optionalCollection: 'dates'),
                   _uid,
-                  //DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                  'new date main',
+                  DateFormat('yyyy-MM-dd').format(DateTime.now()),
                   false,
                 ),
                 child: CounterPage(_uid),
