@@ -24,14 +24,14 @@ class _MainSplashScreenState extends State<MainSplashScreen> {
     super.initState();
     //FutureBuilder(builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {  },)
     Future.delayed(
-      Duration(milliseconds: duration!),
+      Duration(milliseconds: duration),
       () {
         setState(
           () {
             _visible = false;
           },
         );
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>nextScreen));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>nextScreen));
       },
     );
   }

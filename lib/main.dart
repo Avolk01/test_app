@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:register_page/ui/counter_page.dart';
 import 'package:register_page/ui/home_page.dart';
 import 'package:register_page/ui/widgets/main_splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'counter_bloc/counter_bloc.dart';
 import 'models/firebase_controller.dart';
@@ -21,25 +22,36 @@ class RegisterApp extends StatefulWidget {
 }
 
 class _RegisterAppState extends State<RegisterApp> {
-  Future<bool> alreadyLogin() async {
-    return true;
+  void alreadyLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _uid = prefs.getString('uid')!;
+    print('uid main = $_uid');
+    _alreadyLogin = _uid.isNotEmpty;
+    print('flag main = $_alreadyLogin');
   }
 
   String _uid = '';
-  bool _alreadyLogin = false;
+  bool _alreadyLogin = true;
+
+  @override
+  void initState(){
+    super.initState();
+    alreadyLogin();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Регистрация",
       home: MainSplashScreen(
-        true
+        _alreadyLogin
             ? BlocProvider(
                 create: (context) => CounterBloc(
                   FirebaseController(
                       mainCollection: 'users', optionalCollection: 'dates'),
                   _uid,
-                  DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                  //DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                  'new date main',
                   false,
                 ),
                 child: CounterPage(_uid),
