@@ -24,16 +24,23 @@ class StatScreen extends StatelessWidget {
         actions: [],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: 50,
           ),
-          SizedBox(
-            height: 50,
-            child: StatisticBar(_values, _colors),
-          ),
-          SizedBox(
-            height: 100,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+            child: SizedBox(
+              height: 50,
+              child: Container(
+              decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.black,
+                    ),
+                  ),
+                  child: StatisticBar(_values, _colors)),
+            ),
           ),
           ...List.generate(
             _values.length,

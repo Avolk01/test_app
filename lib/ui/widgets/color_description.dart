@@ -10,12 +10,18 @@ class ColorDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        SizedBox(width: 50,),
         Container(
-          width: 100,
           height: 50,
-          color: _color,
+          width: 50,
+          decoration: BoxDecoration(
+             color: _color,
+          borderRadius: BorderRadius.circular(10),
+          ),
         ),
-        Text(_text),
+        Text(_text, style: TextStyle(
+          fontSize: 15,
+        ),),
       ],
     );
   }
