@@ -50,7 +50,7 @@ class _CounterPageState extends State<CounterPage> {
 
   void exitButton()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('uid', '');
+    prefs.remove('uid');
     Navigator.popUntil(context, (context){ return true;});
     Navigator.pushReplacement(
         context,

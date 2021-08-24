@@ -81,7 +81,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   Stream<CounterState> mapEventToState(
     CounterEvent event,
   ) async* {
-    if (event.index == -1) {
+    if (event is Loading) {
       if (!_isNewUser && !await isNewDate()) await loadData();
       else {
         _controller.addNewDate(_uid, _timeNow);
