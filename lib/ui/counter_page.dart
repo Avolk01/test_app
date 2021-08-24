@@ -7,6 +7,7 @@ import 'package:register_page/models/firebase_controller.dart';
 import 'package:register_page/statistic_bloc/statistic_bloc.dart';
 import 'package:register_page/ui/statistic_page.dart';
 import 'package:register_page/ui/widgets/img_with_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
 
@@ -47,7 +48,9 @@ class _CounterPageState extends State<CounterPage> {
     );
   }
 
-  void exitButton(){
+  void exitButton()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('uid', '');
     Navigator.popUntil(context, (context){ return true;});
     Navigator.pushReplacement(
         context,
@@ -62,11 +65,6 @@ class _CounterPageState extends State<CounterPage> {
         _suicideCounter = state.suicide;
         _giveUpCounter = state.giveUp;
         _chetkoCounter = state.chetko;
-        print(_blinCounter);
-        print(_suicideCounter);
-        print(_giveUpCounter);
-        print(_chetkoCounter);
-
       },
       child: StreamBuilder<QuerySnapshot>(
         stream: users.snapshots(),

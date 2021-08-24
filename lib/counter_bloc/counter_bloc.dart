@@ -64,9 +64,6 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 
   Future<bool> isNewDate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('date'));
-    print(_timeNow);
-    print(prefs.getString('date') != _timeNow);
     return prefs.getString('date') != _timeNow;
   }
 
@@ -77,13 +74,6 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
       _databaseValues[1] = (prefs.getInt('suicide')!);
       _databaseValues[2] = (prefs.getInt('giveUp')!);
       _databaseValues[3] = (prefs.getInt('chetko')!);
-      print('LOAD FROM LOCAL DATABASE');
-      print(_databaseValues);
-    } else {
-      print('LOAD FROM FIREBASE');
-      _databaseValues =
-          await _controller.initFieldsFromDatabase(_uid, _timeNow);
-      print(_databaseValues);
     }
   }
 
@@ -94,12 +84,8 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     if (event.index == -1) {
       if (!_isNewUser && !await isNewDate()) await loadData();
       else {
-        print('uid = $_uid');
-        print('date = $_timeNow');
         _controller.addNewDate(_uid, _timeNow);
-        print('new date!!!!');
       }
-      print('mapEventToState');
       yield IncCounter(
         _databaseValues[0],
         _databaseValues[1],

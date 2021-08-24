@@ -22,41 +22,38 @@ class RegisterApp extends StatefulWidget {
 }
 
 class _RegisterAppState extends State<RegisterApp> {
-  void alreadyLogin() async {
+  Future<void> alreadyLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _uid = prefs.getString('uid')!;
-    print('uid main = $_uid');
     _alreadyLogin = _uid.isNotEmpty;
-    print('flag main = $_alreadyLogin');
   }
 
   String _uid = '';
   bool _alreadyLogin = true;
 
   @override
-  void initState(){
-    super.initState();
-    alreadyLogin();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Регистрация",
-      home: MainSplashScreen(
-        _alreadyLogin
-            ? BlocProvider(
-                create: (context) => CounterBloc(
-                  FirebaseController(
-                      mainCollection: 'users', optionalCollection: 'dates'),
-                  _uid,
-                  DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                  false,
-                ),
-                child: CounterPage(_uid),
-              )
-            : HomePage(),
-        3000,
+      home: FutureBuilder(
+        future: alreadyLogin(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return _alreadyLogin
+                ? BlocProvider(
+                    create: (context) => CounterBloc(
+                      FirebaseController(
+                          mainCollection: 'users', optionalCollection: 'dates'),
+                      _uid,
+                      DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                      false,
+                    ),
+                    child: CounterPage(_uid),
+                  )
+                : HomePage();
+          } else
+            return MainSplashScreen();
+        },
       ),
     );
   }
