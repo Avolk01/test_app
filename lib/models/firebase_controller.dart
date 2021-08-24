@@ -7,7 +7,7 @@ class FirebaseController {
   final String mainCollection;
   final String optionalCollection;
 
-  Future<List<int>> initFieldsFromDatabase(String uid, String time) async{
+  Future<List<int>> initFieldsFromDatabase(String uid, String time) async {
     List<int> result = [];
     await FirebaseFirestore.instance
         .collection(mainCollection)
@@ -56,15 +56,35 @@ class FirebaseController {
         .set({'blin': 0, 'suicide': 0, 'giveUp': 0, 'chetko': 0});
   }
 
-  String dateToString(Map<String, dynamic> date){
-    String result = '';
-    date.forEach((key, value) {
-      result += value.toString()+' ';
-    });
+  String dateToString(QueryDocumentSnapshot<Map<String, dynamic>> date) {
+    return date.id.toString();
+  }
+
+  Future<List<String>> getListOfDates(String uid) async {
+    List<String> result = [];
+    var dates = await FirebaseFirestore.instance
+        .collection(mainCollection)
+        .doc(uid)
+        .collection(optionalCollection)
+        .get();
+    dates.docs.forEach(
+      (element) {
+        result.add(dateToString(element));
+      },
+    );
     return result;
   }
 
-  List<String> getListOfDates(String uid){
-    return ['123','456','789'];
+  Future<List<int>> getValues(String uid, String date) async {
+    List<int> result = [];
+    var values = await FirebaseFirestore.instance
+        .collection(mainCollection)
+        .doc(uid)
+        .collection(optionalCollection)
+        .doc(date)
+        .get();
+    values.data()!.forEach((key, value) {result.add(value);},);
+    return result;
   }
+
 }

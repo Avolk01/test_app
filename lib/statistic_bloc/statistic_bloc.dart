@@ -8,7 +8,7 @@ part 'statistic_event.dart';
 part 'statistic_state.dart';
 
 class StatisticBloc extends Bloc<StatisticEvent, StatisticState> {
-  StatisticBloc(this._controller, this._uid) : super(StatisticInitial()){
+  StatisticBloc(this._controller, this._uid) : super(StatisticInitial()) {
     add(GetDates());
   }
 
@@ -19,6 +19,10 @@ class StatisticBloc extends Bloc<StatisticEvent, StatisticState> {
   Stream<StatisticState> mapEventToState(
     StatisticEvent event,
   ) async* {
-    yield Dates(_controller.getListOfDates(_uid));
+    if (event.key == 'dates')
+      yield Dates(await _controller.getListOfDates(_uid));
+    if (event.key == 'values') {
+      yield Values(await _controller.getValues(_uid, event.date));
+    }
   }
 }
