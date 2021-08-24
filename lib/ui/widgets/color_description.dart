@@ -19,8 +19,9 @@ class ColorDescription extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           ),
         ),
+        SizedBox(width: 15,),
         Text(_text, style: TextStyle(
-          fontSize: 15,
+          fontSize: 16,
         ),),
       ],
     );
