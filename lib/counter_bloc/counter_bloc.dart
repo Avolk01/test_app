@@ -69,11 +69,25 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 
   Future<void> loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('date') == _timeNow) {
+    if (_isNewUser) {
       _databaseValues[0] = (prefs.getInt('blin')!);
       _databaseValues[1] = (prefs.getInt('suicide')!);
       _databaseValues[2] = (prefs.getInt('giveUp')!);
       _databaseValues[3] = (prefs.getInt('chetko')!);
+    } else {
+      _databaseValues =
+          await _controller.initFieldsFromDatabase(_uid, _timeNow);
+      prefs.setString('uid', _uid);
+    }
+  }
+
+  Future<bool> rightUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var uid = prefs.getString('uid');
+    if (uid == null) {
+      return false;
+    } else {
+      return uid == _uid;
     }
   }
 
@@ -82,7 +96,8 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     CounterEvent event,
   ) async* {
     if (event is Loading) {
-      if (!_isNewUser && !await isNewDate()) await loadData();
+      if (!_isNewUser && !await isNewDate())
+        await loadData();
       else {
         _controller.addNewDate(_uid, _timeNow);
       }

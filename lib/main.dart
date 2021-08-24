@@ -24,7 +24,14 @@ class RegisterApp extends StatefulWidget {
 class _RegisterAppState extends State<RegisterApp> {
   Future<void> alreadyLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _uid = prefs.getString('uid')!;
+    var uid = prefs.getString('uid');
+
+    if(uid == null){
+      _alreadyLogin = false;
+    }else{
+      _uid = uid;
+      _alreadyLogin = true;
+    }
     _alreadyLogin = _uid.isNotEmpty;
   }
 
