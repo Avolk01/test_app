@@ -25,18 +25,21 @@ class _RegisterAppState extends State<RegisterApp> {
   Future<void> alreadyLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var uid = prefs.getString('uid');
-
-    if(uid == null){
+    var date = prefs.getString('date');
+    if(uid == null || date == null){
       _alreadyLogin = false;
+      _isNewDate = true;
     }else{
       _uid = uid;
       _alreadyLogin = true;
+      _isNewDate = DateFormat('yyyy-mm-dd').format(DateTime.now()) == date;
     }
     _alreadyLogin = _uid.isNotEmpty;
   }
 
   String _uid = '';
   bool _alreadyLogin = true;
+  bool _isNewDate =false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,7 @@ class _RegisterAppState extends State<RegisterApp> {
                           mainCollection: 'users', optionalCollection: 'dates'),
                       _uid,
                       DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                      false,
+                      _isNewDate
                     ),
                     child: CounterPage(_uid),
                   )
