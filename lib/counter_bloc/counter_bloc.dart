@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:register_page/models/firebase_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:register_page/models/shared_pref_controller.dart';
 
 part 'counter_event.dart';
 part 'counter_state.dart';
@@ -12,17 +12,19 @@ part 'counter_state.dart';
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
   CounterBloc(
     this._controller,
+    this._sharedController,
     this._uid,
-    this._timeNow,
+    this._date,
     this._isNewUser,
   ) : super(CounterInitial()) {
-    if (_isNewUser) _controller.createNewUser(_uid, _timeNow);
+    if (_isNewUser) _controller.createNewUser(_uid, _date);
     add(Loading());
   }
 
+  SharedPrefController _sharedController;
   FirebaseController _controller;
   bool _isNewUser;
-  String _timeNow;
+  String _date;
   String _uid;
 
   List<int> _databaseValues = [0, 0, 0, 0];
@@ -53,37 +55,13 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     return result;
   }
 
-  void saveData(List<int> counterValues) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('blin', counterValues[0]);
-    prefs.setInt('suicide', counterValues[1]);
-    prefs.setInt('giveUp', counterValues[2]);
-    prefs.setInt('chetko', counterValues[3]);
-    prefs.setString('uid', _uid);
-    prefs.setString('date', _timeNow);
-  }
-
   Future<void> loadData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (_isNewUser) {
-      _databaseValues[0] = (prefs.getInt('blin')!);
-      _databaseValues[1] = (prefs.getInt('suicide')!);
-      _databaseValues[2] = (prefs.getInt('giveUp')!);
-      _databaseValues[3] = (prefs.getInt('chetko')!);
+      _sharedController.loadLocalData();
     } else {
       _databaseValues =
-          await _controller.initFieldsFromDatabase(_uid, _timeNow);
-      prefs.setString('uid', _uid);
-    }
-  }
-
-  Future<bool> rightUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var uid = prefs.getString('uid');
-    if (uid == null) {
-      return false;
-    } else {
-      return uid == _uid;
+          await _controller.initFieldsFromDatabase(_uid, _date);
+      _sharedController.setString('uid', _uid);
     }
   }
 
@@ -95,7 +73,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
       if (!_isNewUser)
         await loadData();
       else {
-        _controller.addNewDate(_uid, _timeNow);
+        _controller.addNewDate(_uid, _date);
       }
       var dates = await _controller.getListOfDates(_uid);
       var x = await _controller.getListOfDateTime(_uid);
@@ -112,8 +90,8 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     } else {
       if (event.index < 5 && event.index > 0) _incCounter(event.index);
       List<int> counterList = _twoListSum(_databaseValues, _counterValues);
-      _controller.updateDatabase(_uid, _timeNow, counterList);
-      saveData(counterList);
+      _controller.updateDatabase(_uid, _date, counterList);
+      _sharedController.saveData(counterList, _uid, _date);
       yield IncCounter(
         counterList[0],
         counterList[1],

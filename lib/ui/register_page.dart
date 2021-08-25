@@ -9,10 +9,10 @@ import 'package:register_page/bloc/reg_bloc.dart';
 import 'package:register_page/bloc/states.dart';
 import 'package:register_page/counter_bloc/counter_bloc.dart';
 import 'package:register_page/models/firebase_controller.dart';
+import 'package:register_page/models/shared_pref_controller.dart';
 import 'package:register_page/ui/widgets/exception_bar.dart';
 import 'package:register_page/ui/widgets/loading_help_screen.dart';
 import 'package:register_page/ui/widgets/text_field_with_box.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'counter_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -41,8 +41,8 @@ class _RegisterPageState extends State<RegisterPage> {
         MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => CounterBloc(
-              FirebaseController(
-                  mainCollection: 'users', optionalCollection: 'dates'),
+              FirebaseController(mainCollection: 'users', optionalCollection: 'dates'),
+              SharedPrefController(),
               feedback,
               DateFormat('yyyy-MM-dd').format(DateTime.now()),
               isNewUser,

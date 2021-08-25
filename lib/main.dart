@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'counter_bloc/counter_bloc.dart';
 import 'models/firebase_controller.dart';
+import 'models/shared_pref_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,6 +55,7 @@ class _RegisterAppState extends State<RegisterApp> {
                     create: (context) => CounterBloc(
                       FirebaseController(
                           mainCollection: 'users', optionalCollection: 'dates'),
+                      SharedPrefController(),
                       _uid,
                       DateFormat('yyyy-MM-dd').format(DateTime.now()),
                       _isNewDate,
