@@ -4,7 +4,6 @@ part of 'statistic_bloc.dart';
 abstract class StatisticState {
   List<int> get values => [];
   List<String> get dates => [];
-  String get key => '0';
 }
 
 class StatisticInitial extends StatisticState {}
@@ -14,7 +13,6 @@ class Dates extends StatisticState {
 
   List<String> _dates;
   List<String> get dates => _dates;
-  String get key => 'dates';
 }
 
 class Values extends StatisticState {
@@ -22,5 +20,4 @@ class Values extends StatisticState {
 
   List<int> _values;
   List<int> get values => _values;
-  String get key => 'values';
 }

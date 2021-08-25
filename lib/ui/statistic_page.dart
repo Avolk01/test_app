@@ -12,14 +12,15 @@ class StatisticPage extends StatefulWidget {
 }
 
 class _StatisticPageState extends State<StatisticPage> {
-  void dateButton(int index){
+
+  void dateButton(){
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => StatScreen(_values)),
     );
   }
 
-  int flag = -1;
+  bool _isButtonOnClick = false;
   List<int> _values = [];
   List<String> _dates = [];
 
@@ -27,10 +28,10 @@ class _StatisticPageState extends State<StatisticPage> {
   Widget build(BuildContext context) {
     return BlocListener<StatisticBloc, StatisticState>(
       listener: (context, state) {
-        if (state.key == 'dates') _dates = state.dates;
-        if (state.key == 'values') _values = state.values;
-        if(flag != -1)
-          dateButton(flag);
+        if (state is Dates) _dates = state.dates;
+        if (state is Values) _values = state.values;
+        if( _isButtonOnClick)
+          dateButton();
       },
       child: BlocBuilder<StatisticBloc, StatisticState>(
         builder: (context, state) {
@@ -44,7 +45,7 @@ class _StatisticPageState extends State<StatisticPage> {
                   return FlatButton(
                     onPressed: () {
                       context.read<StatisticBloc>().add(GetValues(_dates[index]));
-                      flag = index;
+                      _isButtonOnClick = true;
                     },
                     child: ListTile(
                       title: Text(_dates[index]),
