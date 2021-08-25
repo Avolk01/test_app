@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:register_page/assets/strings.dart';
 import 'package:register_page/statistic_bloc/statistic_bloc.dart';
 import 'package:register_page/ui/stat_screen.dart';
 
@@ -37,7 +38,7 @@ class _StatisticPageState extends State<StatisticPage> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Выберите дату'),
+              title: Text(TitleStrings.statisticPageTitle),
             ),
             body: Center(
               child: ListView.builder(

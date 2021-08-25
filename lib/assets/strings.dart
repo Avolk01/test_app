@@ -36,3 +36,13 @@ class FieldsStrings{
   static const String giveUp = 'giveUp';
   static const String chetko = 'chetko';
 }
+
+class TitleStrings{
+  TitleStrings._();
+  static const String counterPageTitle = 'Выбери своего бойца!';
+  static const String homePageTitle = 'Есть два стула';
+  static const String statScreenTitle = 'Статистика';
+  static const String statisticPageTitle = 'Выберите дату';
+  static const String mainTitle = 'Прикол';
+
+}

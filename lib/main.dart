@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:register_page/assets/strings.dart';
 import 'package:register_page/ui/counter_page.dart';
 import 'package:register_page/ui/home_page.dart';
 import 'package:register_page/ui/widgets/main_splash_screen.dart';
@@ -23,10 +24,11 @@ class RegisterApp extends StatefulWidget {
 }
 
 class _RegisterAppState extends State<RegisterApp> {
+
   Future<void> alreadyLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var uid = prefs.getString('uid');
-    var date = prefs.getString('date');
+    var uid = prefs.getString(FieldsStrings.uid);
+    var date = prefs.getString(FieldsStrings.date);
     if (uid == null || date == null) {
       _alreadyLogin = false;
       _isNewDate = true;
@@ -45,7 +47,7 @@ class _RegisterAppState extends State<RegisterApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Регистрация",
+      title: TitleStrings.mainTitle,
       home: FutureBuilder(
         future: alreadyLogin(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

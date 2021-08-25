@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:register_page/assets/strings.dart';
 import 'package:register_page/ui/widgets/color_description.dart';
 import 'package:register_page/ui/widgets/statistic_bar.dart';
 
@@ -20,7 +21,7 @@ class StatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Статистика'),
+        title: Text(TitleStrings.statScreenTitle),
         actions: [],
       ),
       body: Column(
