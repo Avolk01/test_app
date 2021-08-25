@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
         MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => CounterBloc(
-              FirebaseController(mainCollection: 'users', optionalCollection: 'dates'),
+              FirebaseController(mainCollection: FirebaseStrings.mainCollection, optionalCollection: FirebaseStrings.optionalCollection),
               SharedPrefController(),
               feedback,
               DateFormat('yyyy-MM-dd').format(DateTime.now()),

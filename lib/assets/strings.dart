@@ -44,5 +44,10 @@ class TitleStrings{
   static const String statScreenTitle = 'Статистика';
   static const String statisticPageTitle = 'Выберите дату';
   static const String mainTitle = 'Прикол';
+}
 
+class FirebaseStrings{
+  FirebaseStrings._();
+  static const String mainCollection = 'users';
+  static const String optionalCollection = 'dates';
 }
