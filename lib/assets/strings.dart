@@ -51,3 +51,11 @@ class FirebaseStrings{
   static const String mainCollection = 'users';
   static const String optionalCollection = 'dates';
 }
+
+class ImagePath{
+  ImagePath._();
+  static const String blin = 'images/blin.png';
+  static const String suicide = 'images/suicide.jpg';
+  static const String giveUp = 'images/give_up.jpg';
+  static const String chetko = 'images/chetko.png';
+}

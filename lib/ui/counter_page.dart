@@ -27,7 +27,7 @@ class _CounterPageState extends State<CounterPage> {
   int _giveUpCounter = 0;
   int _chetkoCounter = 0;
   String _uid;
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference users = FirebaseFirestore.instance.collection(FirebaseStrings.mainCollection);
   bool start = true;
 
   void counterPageButton() {
@@ -43,7 +43,7 @@ class _CounterPageState extends State<CounterPage> {
           child: BlocProvider(
             create: (context) => StatisticBloc(
                 FirebaseController(
-                    mainCollection: 'users', optionalCollection: 'dates'),
+                    mainCollection: FirebaseStrings.mainCollection, optionalCollection: FirebaseStrings.optionalCollection),
                 _uid),
             child: StatisticPage(),
           ),
@@ -54,7 +54,7 @@ class _CounterPageState extends State<CounterPage> {
 
   void exitButton() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('uid');
+    prefs.remove(FieldsStrings.uid);
     Navigator.popUntil(context, (context) {
       return true;
     });
@@ -63,13 +63,13 @@ class _CounterPageState extends State<CounterPage> {
   }
 
   List<int> _clicks = [];
-  List<DateTime> _dates =[];
+  List<DateTime> _dates = [];
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<CounterBloc, CounterState>(
       listener: (context, state) {
-        if(state is GraphData){
+        if (state is GraphData) {
           _clicks = state.values;
           _dates = state.dates;
         }
@@ -121,7 +121,7 @@ class _CounterPageState extends State<CounterPage> {
                         Column(
                           children: <Widget>[
                             ImageButton(
-                                'images/blin.png',
+                                ImagePath.blin,
                                 200,
                                 100,
                                 () => context
@@ -132,7 +132,7 @@ class _CounterPageState extends State<CounterPage> {
                               height: 33,
                             ),
                             ImageButton(
-                                'images/suicide.jpg',
+                                ImagePath.suicide,
                                 200,
                                 40,
                                 () => context
@@ -143,7 +143,7 @@ class _CounterPageState extends State<CounterPage> {
                               height: 33,
                             ),
                             ImageButton(
-                                'images/give_up.jpg',
+                                ImagePath.giveUp,
                                 200,
                                 50,
                                 () => context
@@ -157,7 +157,7 @@ class _CounterPageState extends State<CounterPage> {
                         ),
                         Column(
                           children: [
-                            ImageButton('images/chetko.png', 170, 295, () {
+                            ImageButton(ImagePath.chetko, 170, 295, () {
                               context.read<CounterBloc>().add(IncCount(4));
                             }),
                             Text('количество нажатий: $_chetkoCounter'),
@@ -168,7 +168,7 @@ class _CounterPageState extends State<CounterPage> {
                     SizedBox(
                       height: 150,
                       width: 300,
-                      child: SimpleTimeSeriesChart( _clicks,_dates,false),
+                      child: SimpleTimeSeriesChart(_clicks, _dates, false),
                     )
                   ],
                 ),
