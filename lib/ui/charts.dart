@@ -27,8 +27,8 @@ class SimpleTimeSeriesChart extends StatelessWidget {
     );
 
     return [
-      new Series<TimeSeriesClicks, DateTime>(
-        id: 'Sales',
+      Series<TimeSeriesClicks, DateTime>(
+        id: 'Clicks',
         colorFn: (_,__) => MaterialPalette.blue.shadeDefault,
         domainFn: (TimeSeriesClicks clicks, _) => clicks.time,
         measureFn: (TimeSeriesClicks clicks, _) => clicks.clicks,
@@ -38,10 +38,9 @@ class SimpleTimeSeriesChart extends StatelessWidget {
   }
 }
 
-/// Sample time series data type.
 class TimeSeriesClicks {
+  TimeSeriesClicks(this.time, this.clicks);
+
   final DateTime time;
   final int clicks;
-
-  TimeSeriesClicks(this.time, this.clicks);
 }

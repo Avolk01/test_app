@@ -15,7 +15,7 @@ class StatScreen extends StatelessWidget {
     Colors.green
   ];
 
-  final List<String> _strings = ['blin', 'suicide', 'give up', 'chetko'];
+  final List<String> _strings = [FieldsStrings.blin, FieldsStrings.suicide, FieldsStrings.giveUp, FieldsStrings.chetko];
 
   @override
   Widget build(BuildContext context) {

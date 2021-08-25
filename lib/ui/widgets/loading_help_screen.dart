@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LoadingHelpScreen extends StatelessWidget {
   LoadingHelpScreen(this._visible);
 
-  bool _visible;
+  final bool _visible;
 
   @override
   Widget build(BuildContext context) {

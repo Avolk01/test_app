@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class TextFieldWithBox extends StatelessWidget {
   TextFieldWithBox(this._message, this._textController);
-  TextEditingController _textController;
-  String _message;
+  final TextEditingController _textController;
+  final String _message;
 
   @override
   Widget build(BuildContext context) {
