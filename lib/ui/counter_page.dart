@@ -94,15 +94,15 @@ class _CounterPageState extends State<CounterPage> {
                         children: [
                           FlatButton(
                               onPressed: counterPageButton,
-                              child: Text('Кнопочки')),
+                              child: Text(DrawerButtonStrings.back)),
                           FlatButton(
                               onPressed: statisticPageButton,
-                              child: Text('Статистика')),
+                              child: Text(DrawerButtonStrings.stat)),
                         ],
                       ),
                       FlatButton(
                           onPressed: exitButton,
-                          child: Text('Выход из аккаунта')),
+                          child: Text(DrawerButtonStrings.exit)),
                     ],
                   ),
                 ),

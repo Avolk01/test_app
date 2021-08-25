@@ -59,3 +59,11 @@ class ImagePath{
   static const String giveUp = 'images/give_up.jpg';
   static const String chetko = 'images/chetko.png';
 }
+
+class DrawerButtonStrings{
+  DrawerButtonStrings._();
+  static const String back = 'Назад';
+  static const String stat = 'Статистика';
+  static const String exit = 'Выйти из аккаунта';
+}
+
