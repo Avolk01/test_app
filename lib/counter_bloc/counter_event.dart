@@ -7,9 +7,7 @@ abstract class CounterEvent {
 
 class Loading implements CounterEvent{
   Loading();
-
-  int _index = -1;
-  int get index => _index;
+  int get index => -1;
 }
 
 class IncCount implements CounterEvent{

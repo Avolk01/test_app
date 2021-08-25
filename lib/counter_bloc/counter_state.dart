@@ -5,13 +5,10 @@ abstract class CounterState {
   int get suicide=>0;
   int get giveUp=>0;
   int get chetko=>0;
-  int get index =>0;
 }
 
 class CounterInitial implements CounterState {
   CounterInitial();
-
-  int get index =>0;
   int get blin =>0;
   int get suicide=>0;
   int get giveUp=>0;
@@ -19,54 +16,33 @@ class CounterInitial implements CounterState {
 }
 
 class IncCounter implements CounterState {
-
-  IncCounter(this._blin, this._suicide, this._giveUp, this._chetko);
-
-  final int _blin;
-  final int _suicide;
-  final int _giveUp;
-  final int _chetko;
-
-  int get index => 0;
-  int get blin =>_blin;
-  int get suicide=>_suicide;
-  int get giveUp=>_giveUp;
-  int get chetko=>_chetko;
+  IncCounter(this._values);
+  final List<int> _values;
+  int get blin =>_values[0];
+  int get suicide=>_values[1];
+  int get giveUp=>_values[2];
+  int get chetko=>_values[3];
 }
 
 class InitData implements CounterState {
-
-  InitData(this._blin, this._suicide, this._giveUp, this._chetko);
-
-  final int _blin;
-  final int _suicide;
-  final int _giveUp;
-  final int _chetko;
-
-  int get index => -1;
-  int get blin => _blin;
-  int get suicide=> _suicide;
-  int get giveUp=> _giveUp;
-  int get chetko=> _chetko;
+  InitData(this._values);
+  final List<int> _values;
+  int get blin =>  _values[0];
+  int get suicide=>  _values[1];
+  int get giveUp=>  _values[2];
+  int get chetko=> _values[3];
 }
 
 class GraphData implements CounterState {
-  GraphData(this._blin, this._suicide, this._giveUp, this._chetko, this._values, this._dates);
-
-  final int _blin;
-  final int _suicide;
-  final int _giveUp;
-  final int _chetko;
-  final List<DateTime> _dates;
+  GraphData(this._values, this._clicks, this._dates);
   final List<int> _values;
-
-  int get index => -1;
-  int get blin => _blin;
-  int get suicide=> _suicide;
-  int get giveUp=> _giveUp;
-  int get chetko=> _chetko;
-
-  List<int> get values => _values;
+  final List<DateTime> _dates;
+  final List<int> _clicks;
+  int get blin => _values[0];
+  int get suicide=> _values[1];
+  int get giveUp=> _values[2];
+  int get chetko=> _values[3];
+  List<int> get values => _clicks;
   List<DateTime> get dates => _dates;
 }
 

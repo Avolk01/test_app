@@ -59,8 +59,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     if (_isNewUser) {
       _sharedController.loadLocalData();
     } else {
-      _databaseValues =
-          await _controller.initFieldsFromDatabase(_uid, _date);
+      _databaseValues = await _controller.initFieldsFromDatabase(_uid, _date);
       _sharedController.setString('uid', _uid);
     }
   }
@@ -72,32 +71,20 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     if (event is Loading) {
       if (!_isNewUser)
         await loadData();
-      else {
+      else
         _controller.addNewDate(_uid, _date);
-      }
-      var dates = await _controller.getListOfDates(_uid);
-      var x = await _controller.getListOfDateTime(_uid);
-      var y = await _controller.getClicks(
-          _uid, dates);
       yield GraphData(
-        _databaseValues[0],
-        _databaseValues[1],
-        _databaseValues[2],
-        _databaseValues[3],
-        y,
-        x,
+        _databaseValues,
+        await _controller.getClicks(
+            _uid, await _controller.getListOfDates(_uid)),
+        await _controller.getListOfDateTime(_uid),
       );
     } else {
-      if (event.index < 5 && event.index > 0) _incCounter(event.index);
+      if (event is IncCount) _incCounter(event.index);
       List<int> counterList = _twoListSum(_databaseValues, _counterValues);
       _controller.updateDatabase(_uid, _date, counterList);
       _sharedController.saveData(counterList, _uid, _date);
-      yield IncCounter(
-        counterList[0],
-        counterList[1],
-        counterList[2],
-        counterList[3],
-      );
+      yield IncCounter(counterList);
     }
   }
 }
