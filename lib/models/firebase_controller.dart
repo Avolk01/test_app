@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class FirebaseController {
   FirebaseController(
@@ -75,6 +76,21 @@ class FirebaseController {
     return result;
   }
 
+  Future<List<DateTime>> getListOfDateTime(String uid) async {
+    List<DateTime> result = [];
+    var dates = await FirebaseFirestore.instance
+        .collection(mainCollection)
+        .doc(uid)
+        .collection(optionalCollection)
+        .get();
+    dates.docs.forEach(
+      (element) {
+        result.add(DateTime.parse(element.id));
+      },
+    );
+    return result;
+  }
+
   Future<List<int>> getValues(String uid, String date) async {
     List<int> result = [];
     var values = await FirebaseFirestore.instance
@@ -83,8 +99,24 @@ class FirebaseController {
         .collection(optionalCollection)
         .doc(date)
         .get();
-    values.data()!.forEach((key, value) {result.add(value);},);
+    values.data()!.forEach(
+      (key, value) {
+        result.add(value);
+      },
+    );
     return result;
   }
 
+  Future<List<int>> getClicks(String uid, List<String> dates) async {
+    List<int> result = [];
+    for (var elem in dates) {
+      var x = await getValues(uid, elem);
+      int sum = 0;
+      x.forEach((element) {
+        sum += element;
+      });
+      result.add(sum);
+    }
+    return result;
+  }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -62,11 +63,6 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     prefs.setString('date', _timeNow);
   }
 
-  Future<bool> isNewDate() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('date') != _timeNow;
-  }
-
   Future<void> loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (_isNewUser) {
@@ -96,16 +92,22 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     CounterEvent event,
   ) async* {
     if (event is Loading) {
-      if (!_isNewUser && !await isNewDate())
+      if (!_isNewUser)
         await loadData();
       else {
         _controller.addNewDate(_uid, _timeNow);
       }
-      yield IncCounter(
+      var dates = await _controller.getListOfDates(_uid);
+      var x = await _controller.getListOfDateTime(_uid);
+      var y = await _controller.getClicks(
+          _uid, dates);
+      yield GraphData(
         _databaseValues[0],
         _databaseValues[1],
         _databaseValues[2],
         _databaseValues[3],
+        y,
+        x,
       );
     } else {
       if (event.index < 5 && event.index > 0) _incCounter(event.index);

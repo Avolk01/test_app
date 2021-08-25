@@ -12,5 +12,7 @@ class RegState {
 
   final String exceptionMessage;
   final String feedback;
+
+  String get uid => feedback;
 }
 

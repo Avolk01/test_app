@@ -9,6 +9,7 @@ import 'package:register_page/ui/statistic_page.dart';
 import 'package:register_page/ui/widgets/img_with_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'charts.dart';
 import 'home_page.dart';
 
 class CounterPage extends StatefulWidget {
@@ -39,8 +40,10 @@ class _CounterPageState extends State<CounterPage> {
         builder: (cntxt) => BlocProvider.value(
           value: BlocProvider.of<CounterBloc>(context),
           child: BlocProvider(
-            create: (context) => StatisticBloc(FirebaseController(
-                mainCollection: 'users', optionalCollection: 'dates'), _uid),
+            create: (context) => StatisticBloc(
+                FirebaseController(
+                    mainCollection: 'users', optionalCollection: 'dates'),
+                _uid),
             child: StatisticPage(),
           ),
         ),
@@ -48,19 +51,27 @@ class _CounterPageState extends State<CounterPage> {
     );
   }
 
-  void exitButton()async{
+  void exitButton() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('uid');
-    Navigator.popUntil(context, (context){ return true;});
+    Navigator.popUntil(context, (context) {
+      return true;
+    });
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context)=>HomePage()));
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
+
+  List<int> _clicks = [];
+  List<DateTime> _dates =[];
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<CounterBloc, CounterState>(
       listener: (context, state) {
+        if(state is GraphData){
+          _clicks = state.values;
+          _dates = state.dates;
+        }
         _blinCounter = state.blin;
         _suicideCounter = state.suicide;
         _giveUpCounter = state.giveUp;
@@ -153,6 +164,11 @@ class _CounterPageState extends State<CounterPage> {
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 150,
+                      width: 300,
+                      child: SimpleTimeSeriesChart( _clicks,_dates,false),
+                    )
                   ],
                 ),
               );
