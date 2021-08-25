@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:register_page/assets/strings.dart';
 
 class FirebaseController {
   FirebaseController(
@@ -16,10 +17,11 @@ class FirebaseController {
         .doc(time)
         .get()
         .then((value) {
-      result.add(value['blin']);
-      result.add(value['chetko']);
-      result.add(value['giveUp']);
-      result.add(value['suicide']);
+      result.add(value[FieldsStrings.blin]);
+      result.add(value[FieldsStrings.suicide]);
+      result.add(value[FieldsStrings.giveUp]);
+      result.add(value[FieldsStrings.chetko]);
+
     });
     return result;
   }
@@ -31,10 +33,10 @@ class FirebaseController {
         .collection(optionalCollection)
         .doc(time)
         .update({
-      'blin': values[0],
-      'suicide': values[1],
-      'giveUp': values[2],
-      'chetko': values[3],
+      FieldsStrings.blin: values[0],
+      FieldsStrings.suicide: values[1],
+      FieldsStrings.giveUp: values[2],
+      FieldsStrings.chetko: values[3],
     });
   }
 
@@ -44,7 +46,7 @@ class FirebaseController {
         .doc(uid)
         .collection(optionalCollection)
         .doc(time)
-        .set({'blin': 0, 'suicide': 0, 'giveUp': 0, 'chetko': 0});
+        .set({FieldsStrings.blin: 0, FieldsStrings.suicide: 0, FieldsStrings.giveUp: 0, FieldsStrings.chetko: 0});
   }
 
   void addNewDate(String uid, String time) async {
@@ -53,7 +55,7 @@ class FirebaseController {
         .doc(uid)
         .collection(optionalCollection)
         .doc(time)
-        .set({'blin': 0, 'suicide': 0, 'giveUp': 0, 'chetko': 0});
+        .set({FieldsStrings.blin: 0, FieldsStrings.suicide: 0, FieldsStrings.giveUp: 0, FieldsStrings.chetko: 0});
   }
 
   String dateToString(QueryDocumentSnapshot<Map<String, dynamic>> date) {

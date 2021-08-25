@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:register_page/assets/strings.dart';
 import 'package:register_page/models/firebase_controller.dart';
 import 'package:register_page/models/shared_pref_controller.dart';
 
@@ -60,7 +61,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
       _sharedController.loadLocalData();
     } else {
       _databaseValues = await _controller.initFieldsFromDatabase(_uid, _date);
-      _sharedController.setString('uid', _uid);
+      _sharedController.setString(FieldsStrings.uid, _uid);
     }
   }
 

@@ -26,3 +26,13 @@ class TypeOfEventStrings{
   static const String signIn = "вход";
   static const String signUp = "регистрация";
 }
+
+class FieldsStrings{
+  FieldsStrings._();
+  static const String uid = 'uid';
+  static const String date = 'date';
+  static const String blin = 'blin';
+  static const String suicide = 'suicide';
+  static const String giveUp = 'giveUp';
+  static const String chetko = 'chetko';
+}
