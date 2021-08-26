@@ -67,7 +67,12 @@ class FirebaseController {
         .collection(mainCollection)
         .doc(uid)
         .collection(optionalCollection).get();
-   return x.docs[x.size-1].id != time;
+   try{
+     x.docs.firstWhere((element) => element.id == time);
+     return false;
+   } catch (_){
+     return true;
+   }
   }
 
 

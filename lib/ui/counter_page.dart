@@ -108,8 +108,9 @@ class _CounterPageState extends State<CounterPage> {
       ),
       body: BlocConsumer<CounterBloc, CounterState>(
         listener: (context, state) {
-          if (state is LoadingState) {}
+          if (state is LoadingState) {
 
+          }
           if (state is GraphData) {
             _clicks = state.values;
             _dates = state.dates;

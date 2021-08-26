@@ -56,8 +56,7 @@ class _RegisterAppState extends State<RegisterApp> {
                           mainCollection: FirebaseStrings.mainCollection, optionalCollection: FirebaseStrings.optionalCollection),
                       SharedPrefController(),
                       _uid,
-                      //DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                      '2021-08-36',
+                      DateFormat('yyyy-MM-dd').format(DateTime.now()),
                     ),
                     child: CounterPage(_uid),
                   )
