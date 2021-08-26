@@ -31,18 +31,15 @@ class _RegisterAppState extends State<RegisterApp> {
     var date = prefs.getString(FieldsStrings.date);
     if (uid == null || date == null) {
       _alreadyLogin = false;
-      _isNewDate = true;
     } else {
       _uid = uid;
       _alreadyLogin = true;
-      _isNewDate = DateFormat('yyyy-mm-dd').format(DateTime.now()) == date;
     }
     _alreadyLogin = _uid.isNotEmpty;
   }
 
   String _uid = '';
   bool _alreadyLogin = true;
-  bool _isNewDate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +53,11 @@ class _RegisterAppState extends State<RegisterApp> {
                 ? BlocProvider(
                     create: (context) => CounterBloc(
                       FirebaseController(
-                          mainCollection: 'users', optionalCollection: 'dates'),
+                          mainCollection: FirebaseStrings.mainCollection, optionalCollection: FirebaseStrings.optionalCollection),
                       SharedPrefController(),
                       _uid,
-                      DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                      _isNewDate,
+                      //DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                      '2021-08-36',
                     ),
                     child: CounterPage(_uid),
                   )

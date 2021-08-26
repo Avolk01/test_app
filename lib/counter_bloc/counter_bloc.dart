@@ -16,15 +16,12 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     this._sharedController,
     this._uid,
     this._date,
-    this._isNewUser,
   ) : super(CounterInitial()) {
-    if (_isNewUser) _controller.createNewUser(_uid, _date);
     add(Loading());
   }
 
   SharedPrefController _sharedController;
   FirebaseController _controller;
-  bool _isNewUser;
   String _date;
   String _uid;
 
@@ -57,12 +54,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   }
 
   Future<void> loadData() async {
-    if (_isNewUser) {
-      _sharedController.loadLocalData();
-    } else {
-      _databaseValues = await _controller.initFieldsFromDatabase(_uid, _date);
-      _sharedController.setString(FieldsStrings.uid, _uid);
-    }
+
   }
 
   @override
@@ -70,10 +62,12 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     CounterEvent event,
   ) async* {
     if (event is Loading) {
-      if (!_isNewUser)
-        await loadData();
-      else
-        _controller.addNewDate(_uid, _date);
+
+      yield LoadingState();
+
+
+      _databaseValues = await _controller.initFieldsFromDatabase(_uid, _date);
+
       yield GraphData(
         _databaseValues,
         await _controller.getClicks(
@@ -85,7 +79,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
       List<int> counterList = _twoListSum(_databaseValues, _counterValues);
       _controller.updateDatabase(_uid, _date, counterList);
       _sharedController.saveData(counterList, _uid, _date);
-      yield IncCounter(counterList);
+      yield IncCounterState(counterList);
     }
   }
 }

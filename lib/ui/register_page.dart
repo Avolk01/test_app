@@ -34,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordCheckController = TextEditingController();
 
-  void openPage(String feedback, bool isNewUser) async {
+  void openPage(String uid) async {
     Navigator.popUntil(context, (context){ return true;});
     Navigator.push(
         context,
@@ -43,11 +43,11 @@ class _RegisterPageState extends State<RegisterPage> {
             create: (context) => CounterBloc(
               FirebaseController(mainCollection: FirebaseStrings.mainCollection, optionalCollection: FirebaseStrings.optionalCollection),
               SharedPrefController(),
-              feedback,
-              DateFormat('yyyy-MM-dd').format(DateTime.now()),
-              isNewUser,
+              uid,
+              //DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                '2021-08-35',
             ),
-            child: CounterPage(feedback),
+            child: CounterPage(uid),
           ),
         ));
   }
@@ -55,12 +55,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String _exceptionMessage = '';
   bool _exceptionVisibility = false;
   bool _visible = false;
-  bool _isNewUser = false;
 
   void finishOnPressed() {
     setState(() {
       _visible = true;
-      _isNewUser = widget._reg;
     });
     if (widget._reg)
       context.read<RegBloc>().add(SignUp(loginController.text,
@@ -75,8 +73,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return BlocListener<RegBloc, RegState>(
       listener: (context, state) {
+        print(state.feedback);
         if (state.exceptionMessage.isEmpty)
-          openPage(state.feedback, _isNewUser);
+          openPage(state.feedback);
         _exceptionMessage = state.exceptionMessage;
         _exceptionVisibility = state.exceptionMessage.isNotEmpty;
         _visible = false;

@@ -15,8 +15,12 @@ class CounterInitial implements CounterState {
   int get chetko=>0;
 }
 
-class IncCounter implements CounterState {
-  IncCounter(this._values);
+class LoadingState extends CounterState{
+  LoadingState();
+}
+
+class IncCounterState implements CounterState {
+  IncCounterState(this._values);
   final List<int> _values;
   int get blin =>_values[0];
   int get suicide=>_values[1];

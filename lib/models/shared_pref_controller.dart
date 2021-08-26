@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:register_page/assets/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,4 +44,31 @@ class SharedPrefController {
     databaseValues.add(prefs.getInt(FieldsStrings.chetko)!);
     return databaseValues;
   }
+
+  Future<bool> isNewDate() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var savedData = prefs.getString('date');
+    if(savedData == null){
+      return true;
+    }
+    else{
+      return savedData != DateFormat('yyyy-MM-dd').format(DateTime.now());
+    }
+  }
+
+  Future<bool> isNewUser(String uid) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var savedData = prefs.getString('uid');
+    if(savedData == null){
+      return true;
+    }
+    else{
+      return savedData != uid;
+    }
+  }
+
+  Future<bool> requiredNewFields(String uid) async{
+    return await isNewDate() || await isNewUser(uid);
+  }
+
 }

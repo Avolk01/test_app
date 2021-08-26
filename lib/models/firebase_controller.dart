@@ -10,6 +10,10 @@ class FirebaseController {
 
   Future<List<int>> initFieldsFromDatabase(String uid, String time) async {
     List<int> result = [];
+
+    if (await isNewDate(uid, time))
+      addNewDate(uid, time);
+
     await FirebaseFirestore.instance
         .collection(mainCollection)
         .doc(uid)
@@ -49,7 +53,7 @@ class FirebaseController {
         .set({FieldsStrings.blin: 0, FieldsStrings.suicide: 0, FieldsStrings.giveUp: 0, FieldsStrings.chetko: 0});
   }
 
-  void addNewDate(String uid, String time) async {
+  Future<void> addNewDate(String uid, String time) async {
     await FirebaseFirestore.instance
         .collection(mainCollection)
         .doc(uid)
@@ -57,6 +61,15 @@ class FirebaseController {
         .doc(time)
         .set({FieldsStrings.blin: 0, FieldsStrings.suicide: 0, FieldsStrings.giveUp: 0, FieldsStrings.chetko: 0});
   }
+
+  Future<bool> isNewDate(String uid, String time) async {
+   var x = await FirebaseFirestore.instance
+        .collection(mainCollection)
+        .doc(uid)
+        .collection(optionalCollection).get();
+   return x.docs[x.size-1].id != time;
+  }
+
 
   String dateToString(QueryDocumentSnapshot<Map<String, dynamic>> date) {
     return date.id.toString();
