@@ -19,9 +19,9 @@ class StatisticBloc extends Bloc<StatisticEvent, StatisticState> {
   Stream<StatisticState> mapEventToState(
     StatisticEvent event,
   ) async* {
-    if (event is Dates)
+    if (event is GetDates)
       yield Dates(await _controller.getListOfDates(_uid));
-    if (event is Values) {
+    if (event is GetValues) {
       yield Values(await _controller.getValues(_uid, event.date));
     }
   }

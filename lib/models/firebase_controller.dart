@@ -74,8 +74,7 @@ class FirebaseController {
      return true;
    }
   }
-
-
+  
   String dateToString(QueryDocumentSnapshot<Map<String, dynamic>> date) {
     return date.id.toString();
   }
