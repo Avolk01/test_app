@@ -2,13 +2,7 @@ import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 
 class MultiChart extends StatelessWidget {
-  MultiChart(this._values, this._dates, this._animate){
-    print('values in constructor');
-    print(_values);
-    // for(var x in _values)
-    //   print(x);
-    print('end of constructor');
-  }
+  MultiChart(this._values, this._dates, this._animate);
 
   final List<List<int>> _values;
   final List<DateTime> _dates;
@@ -29,8 +23,6 @@ class MultiChart extends StatelessWidget {
       (j) => List.generate(
         _values.length,
         (i) {
-          print(_dates[i]);
-          print(_values[i][j]);
           return new TimeSeriesClicks(
           _dates[i],
           _values[i][j],
@@ -38,9 +30,6 @@ class MultiChart extends StatelessWidget {
         }
       ),
     );
-
-    print('!!!!!!!!!!!!!!!!!!!!!!!!');
-    print(data);
 
     return [
       Series<TimeSeriesClicks, DateTime>(
