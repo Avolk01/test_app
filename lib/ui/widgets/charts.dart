@@ -2,7 +2,7 @@ import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 
 class SimpleTimeSeriesChart extends StatelessWidget {
-  SimpleTimeSeriesChart(this._values, this._dates, this._animate) {}
+  SimpleTimeSeriesChart(this._values, this._dates, this._animate);
 
   final List<int> _values;
   final List<DateTime> _dates;
