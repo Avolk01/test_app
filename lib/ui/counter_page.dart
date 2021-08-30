@@ -78,7 +78,6 @@ class _CounterPageState extends State<CounterPage> {
   }
 
   List<List<int>> _values = [];
-  List<int> _clicks = [];
   List<DateTime> _dates = [];
 
   @override
@@ -119,6 +118,10 @@ class _CounterPageState extends State<CounterPage> {
             _values = state.values;
             _dates = state.dates;
           }
+          for(var x in _values)
+            print(x);
+          for(var x in _dates)
+            print(x);
         },
         bloc: context.watch<CounterBloc>(),
         builder: (context, state) {

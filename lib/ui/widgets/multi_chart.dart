@@ -1,9 +1,14 @@
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 
-class TimeSeriesSymbolAnnotationChart extends StatelessWidget {
-  TimeSeriesSymbolAnnotationChart(this._values, this._dates, this._animate);
+class MultiChart extends StatelessWidget {
+  MultiChart(this._values, this._dates, this._animate){
+    print('values in constructor');
+    print(_values);
+    // for(var x in _values)
+    //   print(x);
+    print('end of constructor');
+  }
 
   final List<List<int>> _values;
   final List<DateTime> _dates;
@@ -19,16 +24,23 @@ class TimeSeriesSymbolAnnotationChart extends StatelessWidget {
   }
 
   List<Series<TimeSeriesClicks, DateTime>> _createData() {
-    final List<List<TimeSeriesClicks>> data = List.generate(
-      _values.length,
-      (ndx) => List.generate(
-        _values[ndx].length,
-        (index) => TimeSeriesClicks(
-          _dates[index],
-          _values[ndx][index],
-        ),
+    List<List<TimeSeriesClicks>> data = List.generate(
+      _values[0].length,
+      (j) => List.generate(
+        _values.length,
+        (i) {
+          print(_dates[i]);
+          print(_values[i][j]);
+          return new TimeSeriesClicks(
+          _dates[i],
+          _values[i][j],
+        );
+        }
       ),
     );
+
+    print('!!!!!!!!!!!!!!!!!!!!!!!!');
+    print(data);
 
     return [
       Series<TimeSeriesClicks, DateTime>(

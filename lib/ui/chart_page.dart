@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:register_page/assets/strings.dart';
-import 'package:register_page/ui/widgets/charts_help.dart';
+import 'package:register_page/ui/widgets/multi_chart.dart';
 
 class ChartPage extends StatelessWidget {
   const ChartPage(this._values, this._dates, {Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class ChartPage extends StatelessWidget {
         title: Text(TitleStrings.chartPageTitle),
       ),
       body: Center(
-        child: TimeSeriesSymbolAnnotationChart(_values, _dates, false),
+        child: MultiChart(_values, _dates, false),
         //SimpleTimeSeriesChart(_values, _dates, false),
       ),
     );
