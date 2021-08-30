@@ -44,6 +44,7 @@ class TitleStrings{
   static const String statScreenTitle = 'Статистика';
   static const String statisticPageTitle = 'Выберите дату';
   static const String mainTitle = 'Прикол';
+  static const String chartPageTitle = 'График';
 }
 
 class FirebaseStrings{
@@ -63,6 +64,7 @@ class ImagePath{
 class DrawerButtonStrings{
   DrawerButtonStrings._();
   static const String back = 'Назад';
+  static const String chart = 'График';
   static const String stat = 'Статистика';
   static const String exit = 'Выйти из аккаунта';
 }
