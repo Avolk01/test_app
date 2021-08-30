@@ -62,18 +62,9 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     CounterEvent event,
   ) async* {
     if (event is Loading) {
-
       yield LoadingState();
-
-
       _databaseValues = await _controller.initFieldsFromDatabase(_uid, _date);
-
-      yield GraphData(
-        _databaseValues,
-        await _controller.getClicks(
-            _uid, await _controller.getListOfDates(_uid)),
-        await _controller.getListOfDateTime(_uid),
-      );
+      yield GraphDataAll(_databaseValues, await _controller.getAllValues(_uid), await _controller.getListOfDateTime(_uid));
     } else {
       if (event is IncCount) _incCounter(event.index);
       List<int> counterList = _twoListSum(_databaseValues, _counterValues);

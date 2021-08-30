@@ -137,4 +137,11 @@ class FirebaseController {
     }
     return result;
   }
+
+  Future<List<List<int>>> getAllValues(String uid) async{
+    List<List<int>> result = [];
+    for (var elem in await getListOfDates(uid))
+      result.add(await getValues(uid, elem));
+    return result;
+  }
 }

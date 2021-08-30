@@ -8,11 +8,10 @@ import 'package:register_page/models/firebase_controller.dart';
 import 'package:register_page/statistic_bloc/statistic_bloc.dart';
 import 'package:register_page/ui/statistic_page.dart';
 import 'package:register_page/ui/widgets/img_with_button.dart';
-import 'package:register_page/ui/widgets/loading_help_screen.dart';
 import 'package:register_page/ui/widgets/main_splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'charts.dart';
+import 'chart_page.dart';
 import 'home_page.dart';
 
 class CounterPage extends StatefulWidget {
@@ -24,10 +23,6 @@ class CounterPage extends StatefulWidget {
 
 class _CounterPageState extends State<CounterPage> {
   _CounterPageState(this._uid);
-  int _blinCounter = 0;
-  int _suicideCounter = 0;
-  int _giveUpCounter = 0;
-  int _chetkoCounter = 0;
   String _uid;
   CollectionReference users =
       FirebaseFirestore.instance.collection(FirebaseStrings.mainCollection);
@@ -73,6 +68,16 @@ class _CounterPageState extends State<CounterPage> {
     );
   }
 
+  void chartPageButton() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChartPage(_values, _dates),
+      ),
+    );
+  }
+
+  List<List<int>> _values = [];
   List<int> _clicks = [];
   List<DateTime> _dates = [];
 
@@ -83,18 +88,17 @@ class _CounterPageState extends State<CounterPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FlatButton(
-                  onPressed: counterPageButton,
-                  child: Text(DrawerButtonStrings.back),
-                ),
-                FlatButton(
-                  onPressed: statisticPageButton,
-                  child: Text(DrawerButtonStrings.stat),
-                ),
-              ],
+            FlatButton(
+              onPressed: counterPageButton,
+              child: Text(DrawerButtonStrings.back),
+            ),
+            FlatButton(
+              onPressed: chartPageButton,
+              child: Text(DrawerButtonStrings.chart),
+            ),
+            FlatButton(
+              onPressed: statisticPageButton,
+              child: Text(DrawerButtonStrings.stat),
             ),
             FlatButton(
               onPressed: exitButton,
@@ -111,14 +115,14 @@ class _CounterPageState extends State<CounterPage> {
           if (state is LoadingState) {
 
           }
-          if (state is GraphData) {
-            _clicks = state.values;
+          if (state is GraphDataAll) {
+            _values = state.values;
             _dates = state.dates;
           }
         },
         bloc: context.watch<CounterBloc>(),
         builder: (context, state) {
-          if (state is IncCounterState || state is GraphData) {
+          if (state is IncCounterState || state is GraphDataAll) {
             return Column(
               children: [
                 SizedBox(
@@ -183,11 +187,6 @@ class _CounterPageState extends State<CounterPage> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 150,
-                  width: 300,
-                  child: SimpleTimeSeriesChart(_clicks, _dates, false),
-                )
               ],
             );
           }
